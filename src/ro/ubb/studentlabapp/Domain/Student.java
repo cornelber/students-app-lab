@@ -7,7 +7,7 @@ public class Student {
     private String name;
     private String email;
 
-    public Student(String name, String email) {
+    public Student(UUID uuid, String name, String email) {
         this.id = UUID.randomUUID();  // Generare cheie unică
         this.name = name;
         this.email = email;
@@ -35,10 +35,10 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+        return String.format("| %-36s | %-20s | %-10d",
+                getId(),
+                getName(),
+                getEmail()
+        );
     }
 }
