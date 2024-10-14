@@ -2,7 +2,9 @@ package ro.ubb.studentlabapp.Repository.Impl;
 
 import ro.ubb.studentlabapp.Domain.Student;
 import ro.ubb.studentlabapp.Repository.IEntityRepository;
+import ro.ubb.studentlabapp.Constants.ErrorMessageStrings;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -10,14 +12,17 @@ import java.util.UUID;
 public class StudentRepository implements IEntityRepository<Student> {
     private List<Student> students;
 
+//    public StudentRepository() {
+//    }
+
     public StudentRepository(List<Student> students) {
-        this.students = students;
+        this.students = new ArrayList<>();
     }
 
     @Override
     public boolean save(Student student) {
         if (student.getId() == null || findById(student.getId()) != null) {
-            throw new IllegalArgumentException(ErrorMessageStrings.CAR_ID_FOUND);
+            throw new IllegalArgumentException(ErrorMessageStrings.STUDENT_ID_FOUND);
         }
         students.add(student);
         return true;
