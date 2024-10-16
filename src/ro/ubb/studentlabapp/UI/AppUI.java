@@ -3,8 +3,9 @@ package ro.ubb.studentlabapp.UI;
 import ro.ubb.studentlabapp.Domain.Student;
 import ro.ubb.studentlabapp.Service.IStudentService;
 import ro.ubb.studentlabapp.Utils.InputReaderUtil;
+import ro.ubb.studentlabapp.Utils.TableFormatterUtil;
 
-import java.util.UUID;
+import java.util.List;
 
 public class AppUI {
     private IStudentService studentService;
@@ -46,6 +47,7 @@ public class AppUI {
             case 3:
                 break;
             case 4:
+                viewAllStudents();
                 break;
             default:
                 System.out.println("Invalid choice. Please try again.");
@@ -70,5 +72,21 @@ public class AppUI {
         String email = InputReaderUtil.readString("Enter the student email: ");
 
         return new Student(firstName, lastName, email);
+    }
+
+    private void viewAllStudents() {
+        try {
+            List<Student> students = studentService.getAll();
+            displayStudentsList(students);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void displayStudentsList(List<Student> students) {
+        String header = String.format("| %-36s | %-15s | %-15s | %-30s |\n",
+                "ID", "First Name", "Second Name", "Email");
+
+        TableFormatterUtil.displayTableFormat(header, students);
     }
 }

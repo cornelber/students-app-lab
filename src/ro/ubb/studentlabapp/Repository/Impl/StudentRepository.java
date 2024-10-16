@@ -14,6 +14,11 @@ public class StudentRepository implements ICRUDRepository<Student> {
     }
 
     @Override
+    public List<Student> findAll() {
+        return this.students;
+    }
+
+    @Override
     public boolean save(Student student) {
         students.add(student);
         return true;
