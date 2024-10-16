@@ -1,5 +1,7 @@
 package ro.ubb.studentlabapp.Domain;
 
+import ro.ubb.studentlabapp.Utils.DateFormatterUtil;
+
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -79,7 +81,7 @@ public class LabProblem {
         return String.format("| %-36s | %-20s | %-10s | %-10d |",
                 getProblemId(),
                 getSubject(),
-                getDueDate(),
+                DateFormatterUtil.formatDate(getDueDate()),
                 getMaxScore()
         );
     }
