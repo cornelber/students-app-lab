@@ -10,7 +10,12 @@ import java.util.Scanner;
 
 public class InputReaderUtil {
     private static final Scanner scanner = new Scanner(System.in);
-
+    /**
+     * Reads an integer input from the console.
+     *
+     * @param prompt The message prompt displayed to the user.
+     * @return The integer input provided by the user.
+     */
     public static int readInt(String prompt) {
         try {
             System.out.print(prompt);
@@ -24,6 +29,12 @@ public class InputReaderUtil {
         }
     }
 
+    /**
+     * Reads a floating-point number input from the console.
+     *
+     * @param prompt The message prompt displayed to the user.
+     * @return The floating-point number input provided by the user.
+     */
     public static float readFloat(String prompt) {
         try {
             System.out.print(prompt);
@@ -37,7 +48,12 @@ public class InputReaderUtil {
         }
     }
 
-
+    /**
+     * Reads a boolean input from the console.
+     *
+     * @param prompt The message prompt displayed to the user.
+     * @return The boolean input provided by the user.
+     */
     public static boolean readBoolean(String prompt) {
         try {
             System.out.print(prompt);
@@ -51,37 +67,53 @@ public class InputReaderUtil {
         }
     }
 
+    /**
+     * Reads a date from the user input in the format dd.mm.yyyy.
+     *
+     * @param prompt The message prompt to be displayed to the user.
+     * @return The parsed LocalDate object.
+     */
+    public static LocalDate readDate(String prompt) {
+        try {
+            System.out.print(prompt);
+            String input = scanner.nextLine();
 
-//    public static LocalDate readDate(String prompt) {
-//        try {
-//            System.out.print(prompt);
-//            String input = scanner.nextLine();
-//
-//            return DateFormatterUtil.parseDate(input);
-//        } catch (DateTimeParseException e) {
-//            System.out.println(ErrorMessageStrings.INPUT_DATE);
-//            return readDate(prompt);
-//        }
-//    }
-//
-//
-//    public static LocalDateTime readDateTime(String prompt) {
-//        try {
-//            System.out.print(prompt);
-//            String input = scanner.nextLine();
-//
-//            return DateFormatterUtil.parseDateTime(input);
-//        } catch (DateTimeParseException e) {
-//            System.out.println(ErrorMessageStrings.INPUT_DATE_TIME);
-//            return readDateTime(prompt);
-//        }
-//    }
+            // Parse the input string into a LocalDate object
+            return DateFormatterUtil.parseDate(input);
+        } catch (DateTimeParseException e) {
+            System.out.println(ErrorMessageStrings.INPUT_DATE);
+            return readDate(prompt);
+        }
+    }
 
+    /**
+     * Reads a date from the user input in the format dd.mm.yyyy HH:mm.
+     *
+     * @param prompt The message prompt to be displayed to the user.
+     * @return The parsed LocalDateTime object.
+     */
+    public static LocalDateTime readDateTime(String prompt) {
+        try {
+            System.out.print(prompt);
+            String input = scanner.nextLine();
 
+            // Parse the input string into a LocalDateTime object
+            return DateFormatterUtil.parseDateTime(input);
+        } catch (DateTimeParseException e) {
+            System.out.println(ErrorMessageStrings.INPUT_DATE_TIME);
+            return readDateTime(prompt);
+        }
+    }
+
+    /**
+     * Reads a string input from the console.
+     *
+     * @param prompt The message prompt displayed to the user.
+     * @return The string input provided by the user.
+     */
     public static String readString(String prompt) {
         System.out.print(prompt);
         String input = scanner.nextLine().trim(); // Read the user input and remove the white spaces
         return input.trim();
     }
-
 }

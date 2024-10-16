@@ -1,5 +1,6 @@
 package ro.ubb.studentlabapp.UI;
 
+import ro.ubb.studentlabapp.Domain.LabProblem;
 import ro.ubb.studentlabapp.Utils.InputReaderUtil;
 
 import java.util.List;
@@ -7,9 +8,12 @@ import java.util.List;
 public class AppUI {
     private StudentUI studentUI;
 
+    private LabProblemUI labProblemUI;
 
-    public AppUI(StudentUI studentUI) {
+
+    public AppUI(StudentUI studentUI, LabProblemUI labProblemUI) {
         this.studentUI = studentUI;
+        this.labProblemUI = labProblemUI;
     }
 
 
@@ -27,7 +31,7 @@ public class AppUI {
     private int displayMainMenu() {
         System.out.println("\nMain Menu");
         System.out.println("1. Student Menu");
-//        System.out.println("2. Clien Cards Menu");
+        System.out.println("2. LabProblem Menu");
 //        System.out.println("3. Transactions Menu");
 //        System.out.println("4. Search by keyword");
         System.out.println("0. Close app");
@@ -43,9 +47,9 @@ public class AppUI {
             case 1:
                 studentUI.start();
                 break;
-//            case 2:
-//                clientCardUI.start();
-//                break;
+            case 2:
+                labProblemUI.start();
+                break;
 //            case 3:
 //                transactionUI.start();
 //                break;
