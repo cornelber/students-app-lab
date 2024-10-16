@@ -31,6 +31,6 @@ public class LabProblemService implements ILabProblemService {
 
     @Override
     public List<LabProblem> getAll() {
-        return List.of();
+        return labProblemRepository.findAll();
     }
 }

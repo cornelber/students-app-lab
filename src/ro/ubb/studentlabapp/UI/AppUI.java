@@ -67,6 +67,9 @@ public class AppUI {
             case 5:
                 addLabProblem();
                 break;
+            case 8:
+                viewAllLabProblems();
+                break;
             default:
                 System.out.println("Invalid choice. Please try again.");
         }
@@ -147,10 +150,26 @@ public class AppUI {
         }
     }
 
+    private void viewAllLabProblems() {
+        try {
+            List<LabProblem> labProblems = labProblemService.getAll();
+            displayLabProblemsList(labProblems);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void displayStudentsList(List<Student> students) {
         String header = String.format("| %-36s | %-15s | %-15s | %-30s |\n",
                 "ID", "First Name", "Second Name", "Email");
 
         TableFormatterUtil.displayTableFormat(header, students);
+    }
+
+    public void displayLabProblemsList(List<LabProblem> labProblems) {
+        String header = String.format("| %-36s | %-20s | %-10s |\n",
+                "ID", "Subject", "Due Date");
+
+        TableFormatterUtil.displayTableFormat(header, labProblems);
     }
 }
