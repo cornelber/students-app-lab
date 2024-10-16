@@ -1,10 +1,5 @@
 package ro.ubb.studentlabapp.UI;
 
-import ro.ubb.studentlabapp.Domain.LabProblem;
-import ro.ubb.studentlabapp.Utils.InputReaderUtil;
-
-import java.util.List;
-
 public class AppUI {
     private StudentUI studentUI;
 

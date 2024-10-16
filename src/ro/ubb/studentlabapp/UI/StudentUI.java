@@ -1,10 +1,6 @@
 package ro.ubb.studentlabapp.UI;
 
-import ro.ubb.studentlabapp.Constants.ErrorMessageStrings;
-import ro.ubb.studentlabapp.Domain.Student;
 import ro.ubb.studentlabapp.Service.IStudentService;
-import ro.ubb.studentlabapp.Utils.InputReaderUtil;
-import ro.ubb.studentlabapp.Utils.TableFormatterUtil;
 
 import java.util.List;
 import java.util.NoSuchElementException;
