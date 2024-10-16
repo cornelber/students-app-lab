@@ -5,6 +5,7 @@ import ro.ubb.studentlabapp.Repository.ICRUDRepository;
 import ro.ubb.studentlabapp.Service.IStudentService;
 
 import java.util.List;
+import java.util.UUID;
 
 public class StudentService implements IStudentService {
     private ICRUDRepository<Student> studentRepository;
@@ -21,5 +22,10 @@ public class StudentService implements IStudentService {
     @Override
     public boolean add(Student student) {
         return studentRepository.save(student);
+    }
+
+    @Override
+    public boolean delete(UUID id) {
+        return studentRepository.delete(id);
     }
 }

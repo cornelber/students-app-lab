@@ -6,6 +6,7 @@ import ro.ubb.studentlabapp.Utils.InputReaderUtil;
 import ro.ubb.studentlabapp.Utils.TableFormatterUtil;
 
 import java.util.List;
+import java.util.UUID;
 
 public class AppUI {
     private IStudentService studentService;
@@ -45,6 +46,7 @@ public class AppUI {
             case 2:
                 break;
             case 3:
+                removeStudent();
                 break;
             case 4:
                 viewAllStudents();
@@ -60,6 +62,24 @@ public class AppUI {
             boolean successfullyAdded = studentService.add(student);
 
             System.out.println(successfullyAdded ? "Student successfully added" : "Failed to add student");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void removeStudent() {
+        try {
+            System.out.println("\nDeleting a student:");
+            viewAllStudents();
+
+            UUID id = UUID.fromString(InputReaderUtil.readString("Enter student id you want to delete from the list: "));
+            boolean successfullyDeleted = studentService.delete(id);
+
+            if (successfullyDeleted) {
+                System.out.println("Student successfully deleted fom the list!");
+            } else {
+                System.out.println("Failed to delete student from the list.");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
