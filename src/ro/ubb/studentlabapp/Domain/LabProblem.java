@@ -12,7 +12,6 @@ public class LabProblem {
     private UUID problemId;
     private String subject;
     private LocalDate dueDate;
-    private int maxScore;
 
     /**
      * Default constructor to create an empty LabProblem.
@@ -27,13 +26,11 @@ public class LabProblem {
      *
      * @param subject   The subject of the lab problem
      * @param dueDate   The due date for the lab problem
-     * @param maxScore  The maximum score of the lab problem
      */
-    public LabProblem(String subject, LocalDate dueDate, int maxScore) {
+    public LabProblem(String subject, LocalDate dueDate) {
         this.problemId = UUID.randomUUID();
         this.subject = subject;
         this.dueDate = dueDate;
-        this.maxScore = maxScore;
     }
 
     // Getter for problem ID
@@ -51,11 +48,6 @@ public class LabProblem {
         return dueDate;
     }
 
-    // Getter for maximum score
-    public int getMaxScore() {
-        return maxScore;
-    }
-
     // Setter for subject
     public void setSubject(String subject) {
         this.subject = subject;
@@ -66,11 +58,6 @@ public class LabProblem {
         this.dueDate = dueDate;
     }
 
-    // Setter for maximum score
-    public void setMaxScore(int maxScore) {
-        this.maxScore = maxScore;
-    }
-
     /**
      * Returns a formatted string representation of the lab problem.
      *
@@ -78,11 +65,10 @@ public class LabProblem {
      */
     @Override
     public String toString() {
-        return String.format("| %-36s | %-20s | %-10s | %-10d |",
+        return String.format("| %-36s | %-20s | %-10s |",
                 getProblemId(),
                 getSubject(),
-                DateFormatterUtil.formatDate(getDueDate()),
-                getMaxScore()
+                DateFormatterUtil.formatDate(getDueDate())
         );
     }
 }
