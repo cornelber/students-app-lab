@@ -26,6 +26,17 @@ public class StudentRepository implements ICRUDRepository<Student> {
     }
 
     @Override
+    public boolean update(UUID id, Student student) {
+        Student oldStudent = findById(id);
+
+        oldStudent.setFirstName(student.getFirstName());
+        oldStudent.setLastName(student.getLastName());
+        oldStudent.setEmail(student.getEmail());
+
+        return true;
+    }
+
+    @Override
     public boolean delete(UUID id) {
         Student studentToDelete = findById(id);
         return students.remove(studentToDelete);

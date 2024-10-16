@@ -5,6 +5,7 @@ import java.util.UUID;
 
 public interface ICRUDService<Entity> {
     boolean add(Entity entity);
+    boolean update(UUID id, Entity entity);
     boolean delete(UUID id);
     List<Entity> getAll();
 }

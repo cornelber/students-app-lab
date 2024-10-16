@@ -44,6 +44,7 @@ public class AppUI {
                 addStudent();
                 break;
             case 2:
+                updateStudent();
                 break;
             case 3:
                 removeStudent();
@@ -67,6 +68,21 @@ public class AppUI {
         }
     }
 
+    private void updateStudent() {
+        try {
+            System.out.println("\nUpdating a student details:");
+            viewAllStudents();
+
+            UUID id = UUID.fromString(InputReaderUtil.readString("Enter student id you want to update from the list: "));
+            Student updatedStudent = readStudentDetailsFromUser();
+            boolean successfullyUpdated = studentService.update(id, updatedStudent);
+            System.out.println(successfullyUpdated ? "Student successfully updated" : "Failed to update student");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void removeStudent() {
         try {
             System.out.println("\nDeleting a student:");
@@ -74,12 +90,8 @@ public class AppUI {
 
             UUID id = UUID.fromString(InputReaderUtil.readString("Enter student id you want to delete from the list: "));
             boolean successfullyDeleted = studentService.delete(id);
+            System.out.println(successfullyDeleted ? "Student successfully deleted" : "Failed to delete student");
 
-            if (successfullyDeleted) {
-                System.out.println("Student successfully deleted fom the list!");
-            } else {
-                System.out.println("Failed to delete student from the list.");
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }

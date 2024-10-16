@@ -25,6 +25,11 @@ public class StudentService implements IStudentService {
     }
 
     @Override
+    public boolean update(UUID id, Student student) {
+        return studentRepository.update(id, student);
+    }
+
+    @Override
     public boolean delete(UUID id) {
         return studentRepository.delete(id);
     }

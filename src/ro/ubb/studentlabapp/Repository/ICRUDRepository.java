@@ -5,6 +5,7 @@ import java.util.UUID;
 
 public interface ICRUDRepository<Entity> {
     boolean save(Entity entity);
+    boolean update(UUID id, Entity entity);
     boolean delete(UUID id);
     List<Entity> findAll();
     Entity findById(UUID id);
