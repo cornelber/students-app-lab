@@ -26,7 +26,7 @@ public class LabProblemService implements ILabProblemService {
 
     @Override
     public boolean delete(UUID id) {
-        return false;
+        return labProblemRepository.delete(id);
     }
 
     @Override

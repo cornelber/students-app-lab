@@ -9,7 +9,7 @@ import java.util.UUID;
  * This class represents a lab problem with a unique ID, subject, due date, and maximum score.
  */
 public class LabProblem {
-    private UUID problemId;
+    private UUID id;
     private String subject;
     private LocalDate dueDate;
     private int maxScore;
@@ -19,7 +19,7 @@ public class LabProblem {
      * The UUID will be generated automatically.
      */
     public LabProblem() {
-        this.problemId = UUID.randomUUID();
+        this.id = UUID.randomUUID();
     }
 
     /**
@@ -30,15 +30,15 @@ public class LabProblem {
      * @param maxScore
      */
     public LabProblem(String subject, LocalDate dueDate, int maxScore) {
-        this.problemId = UUID.randomUUID();
+        this.id = UUID.randomUUID();
         this.subject = subject;
         this.dueDate = dueDate;
         this.maxScore = maxScore;
     }
 
     // Getter for problem ID
-    public UUID getProblemId() {
-        return problemId;
+    public UUID getId() {
+        return id;
     }
 
     // Getter for lab problem subject
@@ -77,7 +77,7 @@ public class LabProblem {
     @Override
     public String toString() {
         return String.format("| %-36s | %-20s | %-10s | %-15d |",
-                getProblemId(),
+                getId(),
                 getSubject(),
                 DateFormatterUtil.formatDate(getDueDate()),
                 getMaxScore()
