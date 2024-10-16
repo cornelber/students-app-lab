@@ -32,7 +32,7 @@ public class LabProblemRepository implements ICRUDRepository<LabProblem> {
 
     @Override
     public List<LabProblem> findAll() {
-        return List.of();
+        return this.labProblems;
     }
 
     @Override
