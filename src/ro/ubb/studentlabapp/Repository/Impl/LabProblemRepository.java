@@ -1,6 +1,7 @@
 package ro.ubb.studentlabapp.Repository.Impl;
 
 import ro.ubb.studentlabapp.Domain.LabProblem;
+import ro.ubb.studentlabapp.Domain.Student;
 import ro.ubb.studentlabapp.Repository.ICRUDRepository;
 
 import java.util.ArrayList;
@@ -27,7 +28,8 @@ public class LabProblemRepository implements ICRUDRepository<LabProblem> {
 
     @Override
     public boolean delete(UUID id) {
-        return false;
+        LabProblem labProblemToDelete = findById(id);
+        return labProblems.remove(labProblemToDelete);
     }
 
     @Override
@@ -37,6 +39,11 @@ public class LabProblemRepository implements ICRUDRepository<LabProblem> {
 
     @Override
     public LabProblem findById(UUID id) {
+        for(LabProblem labProblem : labProblems) {
+            if(labProblem.getId().equals(id)) {
+                return labProblem;
+            }
+        }
         return null;
     }
 }

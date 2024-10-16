@@ -67,6 +67,11 @@ public class AppUI {
             case 5:
                 addLabProblem();
                 break;
+            case 6:
+                break;
+            case 7:
+                removeLabProblem();
+                break;
             case 8:
                 viewAllLabProblems();
                 break;
@@ -120,6 +125,20 @@ public class AppUI {
             UUID id = UUID.fromString(InputReaderUtil.readString("Enter student id you want to delete from the list: "));
             boolean successfullyDeleted = studentService.delete(id);
             System.out.println(successfullyDeleted ? "Student successfully deleted" : "Failed to delete student");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void removeLabProblem() {
+        try {
+            System.out.println("\nDeleting a lab problem:");
+            viewAllLabProblems();
+
+            UUID id = UUID.fromString(InputReaderUtil.readString("Enter lab problem id you want to delete from the list: "));
+            boolean successfullyDeleted = labProblemService.delete(id);
+            System.out.println(successfullyDeleted ? "Lab. problem successfully deleted" : "Failed to delete lab. problem");
 
         } catch (Exception e) {
             e.printStackTrace();
