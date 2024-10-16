@@ -1,18 +1,23 @@
 package ro.ubb.studentlabapp.UI;
 
+import ro.ubb.studentlabapp.Domain.LabProblem;
 import ro.ubb.studentlabapp.Domain.Student;
+import ro.ubb.studentlabapp.Service.ILabProblemService;
 import ro.ubb.studentlabapp.Service.IStudentService;
 import ro.ubb.studentlabapp.Utils.InputReaderUtil;
 import ro.ubb.studentlabapp.Utils.TableFormatterUtil;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
 public class AppUI {
     private IStudentService studentService;
+    private ILabProblemService labProblemService;
 
-    public AppUI (IStudentService studentService) {
+    public AppUI (IStudentService studentService, ILabProblemService labProblemService) {
         this.studentService = studentService;
+        this.labProblemService = labProblemService;
     }
 
 
@@ -27,10 +32,17 @@ public class AppUI {
 
     private int displayMainMenu() {
         System.out.println("\nMain Menu");
+        System.out.println("==================================");
         System.out.println("1. Add a new student");
         System.out.println("2. Update a student");
         System.out.println("3. Delete a student");
         System.out.println("4. View all students");
+        System.out.println("==================================");
+        System.out.println("5. Add a new laboratory problem");
+        System.out.println("6. Update a laboratory problem");
+        System.out.println("7. Delete a laboratory problem");
+        System.out.println("8. View all laboratory problems");
+        System.out.println("==================================");
         System.out.println("0. Close app");
         return InputReaderUtil.readInt("Enter your choice: ");
     }
@@ -52,6 +64,9 @@ public class AppUI {
             case 4:
                 viewAllStudents();
                 break;
+            case 5:
+                addLabProblem();
+                break;
             default:
                 System.out.println("Invalid choice. Please try again.");
         }
@@ -63,6 +78,17 @@ public class AppUI {
             boolean successfullyAdded = studentService.add(student);
 
             System.out.println(successfullyAdded ? "Student successfully added" : "Failed to add student");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addLabProblem() {
+        try {
+            LabProblem labProblem = readLabProblemDetailsFromUser();
+            boolean successfullyAdded = labProblemService.add(labProblem);
+            System.out.println(successfullyAdded ? "Laboratory Problem successfully added" : "Failed to add laboratory problem");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -98,12 +124,18 @@ public class AppUI {
     }
 
     private Student readStudentDetailsFromUser() {
-        // Reading car details from user input
         String firstName = InputReaderUtil.readString("Enter the student first name: ");
         String lastName = InputReaderUtil.readString("Enter the student last name: ");
         String email = InputReaderUtil.readString("Enter the student email: ");
 
         return new Student(firstName, lastName, email);
+    }
+
+    private LabProblem readLabProblemDetailsFromUser() {
+        String subject = InputReaderUtil.readString("Enter the lab problem subject: ");
+        LocalDate dueDate = InputReaderUtil.readDate("Enter the due date (dd.MM.yyyy): ");
+
+        return new LabProblem(subject, dueDate);
     }
 
     private void viewAllStudents() {
