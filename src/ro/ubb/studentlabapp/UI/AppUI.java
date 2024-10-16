@@ -137,8 +137,9 @@ public class AppUI {
     private LabProblem readLabProblemDetailsFromUser() {
         String subject = InputReaderUtil.readString("Enter the lab problem subject: ");
         LocalDate dueDate = InputReaderUtil.readDate("Enter the due date (dd.MM.yyyy): ");
+        int maxScore = InputReaderUtil.readInt("Enter the max score: ");
 
-        return new LabProblem(subject, dueDate);
+        return new LabProblem(subject, dueDate, maxScore);
     }
 
     private void viewAllStudents() {
@@ -167,8 +168,8 @@ public class AppUI {
     }
 
     public void displayLabProblemsList(List<LabProblem> labProblems) {
-        String header = String.format("| %-36s | %-20s | %-10s |\n",
-                "ID", "Subject", "Due Date");
+        String header = String.format("| %-36s | %-20s | %-10s | %-15s |\n",
+                "ID", "Subject", "Due Date", "Max Score");
 
         TableFormatterUtil.displayTableFormat(header, labProblems);
     }
