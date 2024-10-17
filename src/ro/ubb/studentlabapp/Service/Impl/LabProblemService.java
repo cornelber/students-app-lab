@@ -21,7 +21,7 @@ public class LabProblemService implements ILabProblemService {
 
     @Override
     public boolean update(UUID id, LabProblem labProblem) {
-        return false;
+        return labProblemRepository.update(id, labProblem);
     }
 
     @Override
