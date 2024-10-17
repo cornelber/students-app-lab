@@ -68,6 +68,7 @@ public class AppUI {
                 addLabProblem();
                 break;
             case 6:
+                updateLabProblem();
                 break;
             case 7:
                 removeLabProblem();
@@ -110,6 +111,21 @@ public class AppUI {
             UUID id = UUID.fromString(InputReaderUtil.readString("Enter student id you want to update from the list: "));
             Student updatedStudent = readStudentDetailsFromUser();
             boolean successfullyUpdated = studentService.update(id, updatedStudent);
+            System.out.println(successfullyUpdated ? "Student successfully updated" : "Failed to update student");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateLabProblem() {
+        try {
+            System.out.println("\nUpdating a lab. problem details:");
+            viewAllLabProblems();
+
+            UUID id = UUID.fromString(InputReaderUtil.readString("Enter lab. problem id you want to update from the list: "));
+            LabProblem updatedLabProblem = readLabProblemDetailsFromUser();
+            boolean successfullyUpdated = labProblemService.update(id, updatedLabProblem);
             System.out.println(successfullyUpdated ? "Student successfully updated" : "Failed to update student");
 
         } catch (Exception e) {

@@ -23,7 +23,13 @@ public class LabProblemRepository implements ICRUDRepository<LabProblem> {
 
     @Override
     public boolean update(UUID id, LabProblem labProblem) {
-        return false;
+        LabProblem labProblemToUpdate = findById(id);
+
+        labProblemToUpdate.setSubject(labProblem.getSubject());
+        labProblemToUpdate.setDueDate(labProblem.getDueDate());
+        labProblemToUpdate.setMaxScore(labProblem.getMaxScore());
+
+        return true;
     }
 
     @Override
