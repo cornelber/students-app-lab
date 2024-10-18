@@ -90,7 +90,7 @@ public class AppUI {
                 addAssignment();
                 break;
             case 10:
-
+                updateAssignment();
                 break;
             case 11:
                 removeAssignment();
@@ -131,18 +131,13 @@ public class AppUI {
 
             viewAllStudents();
             UUID studentId = UUID.fromString(InputReaderUtil.readString("student id: "));
-
             Student student = assignmentService.findStudentById(studentId);
 
             viewAllLabProblems();
             UUID labProblemId = UUID.fromString(InputReaderUtil.readString("labProblem id: "));
-
-
             LabProblem labProblem = assignmentService.findLabProblemById(labProblemId);
 
             int grade = InputReaderUtil.readInt("Enter the grade: ");
-
-
 
             Assignment assignmentToAdd = new Assignment(student, labProblem, grade);
 
@@ -180,6 +175,24 @@ public class AppUI {
             boolean successfullyUpdated = labProblemService.update(id, updatedLabProblem);
             System.out.println(successfullyUpdated ? "Student successfully updated" : "Failed to update student");
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateAssignment() {
+        try {
+            System.out.println("\nUpdating an assignment details:");
+            viewAllAssignments();
+
+            UUID id = UUID.fromString(InputReaderUtil.readString("Enter assignment id you want to update from the list: "));
+
+            int grade = InputReaderUtil.readInt("Enter the grade: ");
+
+            Assignment updatedAssignment = new Assignment(grade);
+
+            boolean successfullyUpdated = assignmentService.update(id, updatedAssignment);
+            System.out.println(successfullyUpdated ? "Assignment successfully updated" : "Failed to update Assignment");
         } catch (Exception e) {
             e.printStackTrace();
         }
