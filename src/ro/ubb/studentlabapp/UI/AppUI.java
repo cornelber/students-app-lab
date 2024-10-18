@@ -1,7 +1,9 @@
 package ro.ubb.studentlabapp.UI;
 
+import ro.ubb.studentlabapp.Domain.Assignment;
 import ro.ubb.studentlabapp.Domain.LabProblem;
 import ro.ubb.studentlabapp.Domain.Student;
+import ro.ubb.studentlabapp.Service.IAssignmentService;
 import ro.ubb.studentlabapp.Service.ILabProblemService;
 import ro.ubb.studentlabapp.Service.IStudentService;
 import ro.ubb.studentlabapp.Utils.InputReaderUtil;
@@ -15,9 +17,12 @@ public class AppUI {
     private IStudentService studentService;
     private ILabProblemService labProblemService;
 
-    public AppUI (IStudentService studentService, ILabProblemService labProblemService) {
+    private IAssignmentService assignmentService;
+
+    public AppUI (IStudentService studentService, ILabProblemService labProblemService, IAssignmentService assignmentService) {
         this.studentService = studentService;
         this.labProblemService = labProblemService;
+        this.assignmentService = assignmentService;
     }
 
 
@@ -42,6 +47,8 @@ public class AppUI {
         System.out.println("6. Update a laboratory problem");
         System.out.println("7. Delete a laboratory problem");
         System.out.println("8. View all laboratory problems");
+        System.out.println("==================================");
+        System.out.println("9. Assign problem to student");
         System.out.println("==================================");
         System.out.println("0. Close app");
         return InputReaderUtil.readInt("Enter your choice: ");
@@ -76,6 +83,9 @@ public class AppUI {
             case 8:
                 viewAllLabProblems();
                 break;
+            case 9:
+                addAssignment();
+                break;
             default:
                 System.out.println("Invalid choice. Please try again.");
         }
@@ -97,6 +107,36 @@ public class AppUI {
             LabProblem labProblem = readLabProblemDetailsFromUser();
             boolean successfullyAdded = labProblemService.add(labProblem);
             System.out.println(successfullyAdded ? "Laboratory Problem successfully added" : "Failed to add laboratory problem");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addAssignment(){
+        try {
+            System.out.println("Assign problem to student:\n");
+
+            viewAllStudents();
+            UUID studentId = UUID.fromString(InputReaderUtil.readString("student id: "));
+
+            Student student = assignmentService.findStudentById(studentId);
+
+            viewAllLabProblems();
+            UUID labProblemId = UUID.fromString(InputReaderUtil.readString("labProblem id: "));
+
+
+            LabProblem labProblem = assignmentService.findLabProblemById(labProblemId);
+
+            int grade = InputReaderUtil.readInt("Enter the grade: ");
+
+
+
+            Assignment assignmentToAdd = new Assignment(student, labProblem, grade);
+
+
+            boolean successfullyAdded = assignmentService.add(assignmentToAdd);
+            System.out.println(successfullyAdded ? " successfully added" : "Failed to add laboratory problem");
 
         } catch (Exception e) {
             e.printStackTrace();
