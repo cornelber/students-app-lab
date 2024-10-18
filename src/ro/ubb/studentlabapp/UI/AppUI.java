@@ -411,8 +411,8 @@ public class AppUI {
     }
 
     public void displayAssignmentList(List<Assignment> assignments) {
-        String header = String.format("| %-36s | %-36s | %-20s | %-10s |\n",
-                "ID", "Student", "Lab Problem", "Grade");
+        String header = String.format("| %-36s | %-36s | %-30s | %-20s | %-10s | %-15s | %-10s |\n",
+                "ID", "Student", "Email", "Lab Problem", "Due Date", "Student Grade", "Max Score");
 
         TableFormatterUtil.displayTableFormat(header, assignments);
     }
