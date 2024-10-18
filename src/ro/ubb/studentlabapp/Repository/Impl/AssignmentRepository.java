@@ -1,6 +1,7 @@
 package ro.ubb.studentlabapp.Repository.Impl;
 
 import ro.ubb.studentlabapp.Domain.Assignment;
+import ro.ubb.studentlabapp.Domain.LabProblem;
 import ro.ubb.studentlabapp.Repository.ICRUDRepository;
 
 import java.util.ArrayList;
@@ -27,7 +28,8 @@ public class AssignmentRepository implements ICRUDRepository<Assignment> {
 
     @Override
     public boolean delete(UUID id) {
-        return false;
+        Assignment assignmentToDelete = findById(id);
+        return assignments.remove(assignmentToDelete);
     }
 
     @Override
@@ -37,6 +39,11 @@ public class AssignmentRepository implements ICRUDRepository<Assignment> {
 
     @Override
     public Assignment findById(UUID id) {
+        for(Assignment assignment : assignments) {
+            if(assignment.getId().equals(id)) {
+                return assignment;
+            }
+        }
         return null;
     }
 }
