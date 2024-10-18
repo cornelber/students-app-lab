@@ -6,10 +6,12 @@ import ro.ubb.studentlabapp.Domain.Student;
 import ro.ubb.studentlabapp.Service.IAssignmentService;
 import ro.ubb.studentlabapp.Service.ILabProblemService;
 import ro.ubb.studentlabapp.Service.IStudentService;
+import ro.ubb.studentlabapp.Utils.DateFormatterUtil;
 import ro.ubb.studentlabapp.Utils.InputReaderUtil;
 import ro.ubb.studentlabapp.Utils.TableFormatterUtil;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,6 +29,7 @@ public class AppUI {
 
 
     public void run() {
+        addMockDataInMemory();
         int choice;
 
         do {
@@ -101,6 +104,34 @@ public class AppUI {
             default:
                 System.out.println("Invalid choice. Please try again.");
         }
+    }
+
+    private void addMockDataInMemory() {
+        Student student1 = new Student("John", "Doe", "john.doe@gmail.com");
+        Student student2 = new Student("Ion", "Mihai", "mihai.ion@gmail.com");
+        Student student3 = new Student("Ioana", "Ana", "ana@gmail.com");
+        Student student4 = new Student("Madalina", "Creanga", "mcreanda@gmail.com");
+
+        studentService.add(student1);
+        studentService.add(student2);
+        studentService.add(student3);
+        studentService.add(student4);
+
+        // Adding mock lab problems
+        LabProblem labProblem1 = new LabProblem("Matematica", DateFormatterUtil.parseDate("18.12.2024"), 100);
+        LabProblem labProblem2 = new LabProblem("Chimie", DateFormatterUtil.parseDate("10.12.2024"), 100);
+
+        labProblemService.add(labProblem1);
+        labProblemService.add(labProblem2);
+
+        // Adding mock assignments
+        Assignment assignment1 = new Assignment(student1, labProblem1, 90);
+        Assignment assignment2 = new Assignment(student2, labProblem2, 85);
+        Assignment assignment3 = new Assignment(student3, labProblem1, 75);
+
+        assignmentService.add(assignment1);
+        assignmentService.add(assignment2);
+        assignmentService.add(assignment3);
     }
 
     private void addStudent() {
