@@ -1,7 +1,6 @@
 package ro.ubb.studentlabapp.Utils;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -18,6 +17,7 @@ public class DateFormatterUtil {
     public static String formatDate(LocalDate date) {
         return date.format(DateTimeFormatter.ofPattern(DATE_PATTERN));
     }
+
     /**
      * Parse a string representing a date to a LocalDate object using the specified pattern.
      *

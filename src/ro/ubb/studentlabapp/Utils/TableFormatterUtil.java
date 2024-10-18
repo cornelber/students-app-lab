@@ -1,7 +1,6 @@
 package ro.ubb.studentlabapp.Utils;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Utility class for generating formatted tables.
@@ -29,53 +28,6 @@ public class TableFormatterUtil {
 
         // Display each row of data
         data.forEach(System.out::println);
-
-        // Display the bottom border of the table
-        System.out.println(topAndBottomBorder);
-    }
-
-    /**
-     * Display a map of discounts in table format.
-     *
-     * @param header The header of the table.
-     * @param discounts The map containing the discount details.
-     */
-    public static void displayDiscountTable(String header, Map<String, Float> discounts) {
-        int separatorLength = calculateHeaderLength(header);
-        String topAndBottomBorder = generateTableLine(separatorLength, TABLE_TOP_BOTTOM_BORDER);
-        String separator = generateTableLine(separatorLength, TABLE_MIDDLE_LINE);
-
-        // Display the top border of the table
-        System.out.println(topAndBottomBorder);
-
-        int size = discounts.size();
-        if (size != 1) {
-            // Display the header
-            System.out.print(header);
-            System.out.println(separator);
-        }
-
-        // Display each discount entry except the last one
-        int index = 0;
-        Map.Entry<String, Float> lastEntry = null;
-        for (Map.Entry<String, Float> entry : discounts.entrySet()) {
-            if(index == size - 1) {
-                lastEntry = entry;
-                break;
-            }
-
-            System.out.printf("| %-25s | %-15.2f |\n", entry.getKey(), entry.getValue());
-            index++;
-        }
-
-        // Display the last entry if it exists
-        if( size != 1 ) {
-            System.out.println(separator);
-        }
-
-        if (lastEntry != null) {
-            System.out.printf("| %-25s | %-15.2f |\n", lastEntry.getKey(), lastEntry.getValue());
-        }
 
         // Display the bottom border of the table
         System.out.println(topAndBottomBorder);
