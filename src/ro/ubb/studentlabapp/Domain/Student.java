@@ -6,24 +6,24 @@ import java.util.UUID;
  * This class represents a student with a unique ID, first name, last name, and email.
  */
 public class Student {
-    private UUID id;
+    private final UUID id;
     private String firstName;
     private String lastName;
     private String email;
 
-    /**
-     * Default constructor to create an empty Student.
-     * The UUID will be generated automatically.
-     */
-    public Student() {
-        this.id = UUID.randomUUID();
-    }
+//    /**
+//     * Default constructor to create an empty Student.
+//     * The UUID will be generated automatically.
+//     */
+//    public Student() {
+//        this.id = UUID.randomUUID();
+//    }
 
     /**
      * Constructor to create a new Student with a random UUID.
      *
      * @param firstName  The first name of the student
-     * @param lastName The second name of the student
+     * @param lastName   The last name of the student
      * @param email      The email of the student
      */
     public Student(String firstName, String lastName, String email) {
