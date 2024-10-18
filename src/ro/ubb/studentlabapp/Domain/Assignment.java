@@ -1,12 +1,16 @@
 package ro.ubb.studentlabapp.Domain;
 
+import java.util.UUID;
+
 /**
  * This class represents an assignment of a student for a specific lab problem and their grade.
  */
 public class Assignment {
+
+    private UUID id;
     private Student student;
     private LabProblem labProblem;
-    private double grade;
+    private int grade;
 
     /**
      * Constructor to create a new Assignment.
@@ -15,11 +19,14 @@ public class Assignment {
      * @param labProblem The lab problem assigned to the student
      * @param grade      The grade the student received for the assignment
      */
-    public Assignment(Student student, LabProblem labProblem, double grade) {
+    public Assignment(Student student, LabProblem labProblem, int grade) {
+        this.id = UUID.randomUUID();
         this.student = student;
         this.labProblem = labProblem;
         this.grade = grade;
     }
+
+    public UUID getId(){return this.id;}
 
     // Getter for student
     public Student getStudent() {
@@ -35,9 +42,8 @@ public class Assignment {
     public double getGrade() {
         return grade;
     }
-
     // Setter for grade
-    public void setGrade(double grade) {
+    public void setGrade(int grade) {
         this.grade = grade;
     }
 
@@ -49,7 +55,7 @@ public class Assignment {
     @Override
     public String toString() {
         return String.format("| %-36s | %-36s | %-20s | %-10.2f |",
-                getStudent().getId(),
+                getId(),
                 getStudent().getFirstName() + " " + getStudent().getLastName(),
                 getLabProblem().getSubject(),
                 getGrade()
