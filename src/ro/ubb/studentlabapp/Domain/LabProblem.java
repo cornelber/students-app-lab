@@ -9,25 +9,25 @@ import java.util.UUID;
  * This class represents a lab problem with a unique ID, subject, due date, and maximum score.
  */
 public class LabProblem {
-    private UUID id;
+    private final UUID id;
     private String subject;
     private LocalDate dueDate;
     private int maxScore;
 
-    /**
-     * Default constructor to create an empty LabProblem.
-     * The UUID will be generated automatically.
-     */
-    public LabProblem() {
-        this.id = UUID.randomUUID();
-    }
+//    /**
+//     * Default constructor to create an empty LabProblem.
+//     * The UUID will be generated automatically.
+//     */
+//    public LabProblem() {
+//        this.id = UUID.randomUUID();
+//    }
 
     /**
      * Constructor to create a new LabProblem with specific details.
      *
      * @param subject   The subject of the lab problem
      * @param dueDate   The due date for the lab problem
-     * @param maxScore
+     * @param maxScore  The maximum score for the lab problem
      */
     public LabProblem(String subject, LocalDate dueDate, int maxScore) {
         this.id = UUID.randomUUID();
@@ -51,6 +51,7 @@ public class LabProblem {
         return dueDate;
     }
 
+    // Getter for maximum score
     public int getMaxScore() {
         return maxScore;
     }
@@ -65,6 +66,7 @@ public class LabProblem {
         this.dueDate = dueDate;
     }
 
+    // Setter for maximum score
     public void setMaxScore(int maxScore) {
         this.maxScore = maxScore;
     }
