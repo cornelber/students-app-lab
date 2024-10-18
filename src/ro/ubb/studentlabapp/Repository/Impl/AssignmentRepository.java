@@ -32,7 +32,7 @@ public class AssignmentRepository implements ICRUDRepository<Assignment> {
 
     @Override
     public List<Assignment> findAll() {
-        return null;
+        return this.assignments;
     }
 
     @Override

@@ -96,7 +96,7 @@ public class AppUI {
 
                 break;
             case 12:
-
+                viewAllAssignments();
                 break;
             default:
                 System.out.println("Invalid choice. Please try again.");
@@ -247,6 +247,15 @@ public class AppUI {
         }
     }
 
+    private void viewAllAssignments() {
+        try {
+            List<Assignment> assignments = assignmentService.getAll();
+            displayAssignmentList(assignments);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void displayStudentsList(List<Student> students) {
         String header = String.format("| %-36s | %-15s | %-15s | %-30s |\n",
                 "ID", "First Name", "Second Name", "Email");
@@ -259,5 +268,12 @@ public class AppUI {
                 "ID", "Subject", "Due Date", "Max Score");
 
         TableFormatterUtil.displayTableFormat(header, labProblems);
+    }
+
+    public void displayAssignmentList(List<Assignment> assignments) {
+        String header = String.format("| %-36s | %-36s | %-20s | %-10s |\n",
+                "ID", "Student", "Lab Problem", "Grade");
+
+        TableFormatterUtil.displayTableFormat(header, assignments);
     }
 }
