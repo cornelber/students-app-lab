@@ -11,9 +11,11 @@ import ro.ubb.studentlabapp.Utils.InputReaderUtil;
 import ro.ubb.studentlabapp.Utils.TableFormatterUtil;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class AppUI {
     private IStudentService studentService;
@@ -116,6 +118,7 @@ public class AppUI {
     }
 
     private void addMockDataInMemory() {
+        // Adding mock students
         Student student1 = new Student("John", "Doe", "john.doe@gmail.com");
         Student student2 = new Student("Ion", "Mihai", "mihai.ion@gmail.com");
         Student student3 = new Student("Ioana", "Ana", "ana@gmail.com");
@@ -144,154 +147,168 @@ public class AppUI {
     }
 
     private void showUnassignedStudents(){
-        try{
+        try {
+            System.out.println("\nFetching list of students without assignments...");
             List<Student> unassignedStudents = assignmentService.filterStudentsWithoutAssignments();
-            displayStudentsList(unassignedStudents);
-        }catch (Exception e){
+
+            Optional.of(unassignedStudents)
+                    .filter(list -> !list.isEmpty())
+                    .ifPresentOrElse(
+                            list -> {
+                                System.out.println("\nList of students without assignments:");
+                                displayStudentsList(list);
+                            },
+                            () -> System.out.println("\nAll students have been assigned lab problems.") // fallback method
+                    );
+        } catch (Exception e) {
+            System.out.println("An error occurred while fetching the list of unassigned students. Please try again.");
             e.printStackTrace();
         }
 
     }
 
     private void reportMostAssignedLabProblem() {
-        assignmentService.getMostAssignedLabProblem().ifPresentOrElse(
-                labProblem -> System.out.println("The most assigned lab problem is: " + labProblem.getSubject()),
-                () -> System.out.println("No lab problems have been assigned yet.")
-        );
+        try {
+            System.out.println("\nFetching the most assigned lab problem...");
+            assignmentService.getMostAssignedLabProblem().ifPresentOrElse(
+                    labProblem -> System.out.println("The most assigned lab problem is: " + labProblem.getSubject()),
+                    () -> System.out.println("No lab problems have been assigned yet.")
+            );
+        } catch (Exception e) {
+            System.out.println("An error occurred while fetching the most assigned lab problem. Please try again.");
+            e.printStackTrace();
+        }
     }
+
     private void addStudent() {
         try {
-            Student student = readStudentDetailsFromUser();
-            boolean successfullyAdded = studentService.add(student);
-
+            Student studentToAdd = readStudentDetailsFromUser();
+            boolean successfullyAdded = studentService.add(studentToAdd);
             System.out.println(successfullyAdded ? "Student successfully added" : "Failed to add student");
+
         } catch (Exception e) {
+            System.out.println("An error occurred while adding the student. Please check the details and try again.");
             e.printStackTrace();
         }
     }
 
     private void addLabProblem() {
         try {
-            LabProblem labProblem = readLabProblemDetailsFromUser();
-            boolean successfullyAdded = labProblemService.add(labProblem);
-            System.out.println(successfullyAdded ? "Laboratory Problem successfully added" : "Failed to add laboratory problem");
+            LabProblem labProblemToAdd = readLabProblemDetailsFromUser();
+            boolean successfullyAdded = labProblemService.add(labProblemToAdd);
+            System.out.println(successfullyAdded ? "Laboratory problem successfully added" : "Failed to add laboratory problem");
 
         } catch (Exception e) {
+            System.out.println("An error occurred while adding the laboratory problem. Please check the details and try again.");
             e.printStackTrace();
         }
     }
 
     private void addAssignment(){
         try {
-            System.out.println("Assign problem to student:\n");
-
-            viewAllStudents();
-            UUID studentId = UUID.fromString(InputReaderUtil.readString("student id: "));
-            Student student = assignmentService.findStudentById(studentId);
-
-            viewAllLabProblems();
-            UUID labProblemId = UUID.fromString(InputReaderUtil.readString("labProblem id: "));
-            LabProblem labProblem = assignmentService.findLabProblemById(labProblemId);
-
-            int grade = InputReaderUtil.readInt("Enter the grade: ");
-
-            Assignment assignmentToAdd = new Assignment(student, labProblem, grade);
-
-
+            Assignment assignmentToAdd = readAssignmentDetailsFromUser();
             boolean successfullyAdded = assignmentService.add(assignmentToAdd);
-            System.out.println(successfullyAdded ? " successfully added" : "Failed to add laboratory problem");
+            System.out.println(successfullyAdded ? "Assignment successfully added" : "Failed to add assignment");
 
         } catch (Exception e) {
+            System.out.println("An error occurred while adding the assignment. Please check the details and try again.");
             e.printStackTrace();
         }
     }
 
     private void updateStudent() {
         try {
-            System.out.println("\nUpdating a student details:");
+            System.out.println("\nList of available students:");
             viewAllStudents();
 
-            UUID id = UUID.fromString(InputReaderUtil.readString("Enter student id you want to update from the list: "));
-            Student updatedStudent = readStudentDetailsFromUser();
-            boolean successfullyUpdated = studentService.update(id, updatedStudent);
+            UUID id = UUID.fromString(InputReaderUtil.readString("Enter the ID of the student you want to update:\nStudent ID: "));
+
+            Student studentToUpdate = readStudentDetailsFromUser();
+            boolean successfullyUpdated = studentService.update(id, studentToUpdate);
             System.out.println(successfullyUpdated ? "Student successfully updated" : "Failed to update student");
 
         } catch (Exception e) {
+            System.out.println("An error occurred while updating the student. Please check the details and try again.");
             e.printStackTrace();
         }
     }
 
     private void updateLabProblem() {
         try {
-            System.out.println("\nUpdating a lab. problem details:");
+            System.out.println("\nList of available lab problems:");
             viewAllLabProblems();
 
-            UUID id = UUID.fromString(InputReaderUtil.readString("Enter lab. problem id you want to update from the list: "));
-            LabProblem updatedLabProblem = readLabProblemDetailsFromUser();
-            boolean successfullyUpdated = labProblemService.update(id, updatedLabProblem);
-            System.out.println(successfullyUpdated ? "Student successfully updated" : "Failed to update student");
+            UUID id = UUID.fromString(InputReaderUtil.readString("Enter the ID of the lab problem you want to update:\nLab Problem ID: "));
+
+            LabProblem labProblemToUpdate = readLabProblemDetailsFromUser();
+            boolean successfullyUpdated = labProblemService.update(id, labProblemToUpdate);
+            System.out.println(successfullyUpdated ? "Lab problem was successfully updated." : "Failed to update the lab problem.");
 
         } catch (Exception e) {
+            System.out.println("An error occurred while updating the lab problem. Please check the details and try again.");
             e.printStackTrace();
         }
     }
 
     private void updateAssignment() {
         try {
-            System.out.println("\nUpdating an assignment details:");
+            System.out.println("\nList of available assignments:");
             viewAllAssignments();
 
-            UUID id = UUID.fromString(InputReaderUtil.readString("Enter assignment id you want to update from the list: "));
+            UUID id = UUID.fromString(InputReaderUtil.readString("Enter the ID of the assignment you want to update:\nAssignment ID: "));
+            int grade = InputReaderUtil.readInt("Enter the new grade for the assignment: ");
 
-            int grade = InputReaderUtil.readInt("Enter the grade: ");
+            Assignment assignmentToUpdate = new Assignment(grade);
+            boolean successfullyUpdated = assignmentService.update(id, assignmentToUpdate);
+            System.out.println(successfullyUpdated ? "Assignment was successfully updated." : "Failed to update the assignment.");
 
-            Assignment updatedAssignment = new Assignment(grade);
-
-            boolean successfullyUpdated = assignmentService.update(id, updatedAssignment);
-            System.out.println(successfullyUpdated ? "Assignment successfully updated" : "Failed to update Assignment");
         } catch (Exception e) {
+            System.out.println("An error occurred while updating the assignment. Please check the details and try again.");
             e.printStackTrace();
         }
     }
 
     private void removeStudent() {
         try {
-            System.out.println("\nDeleting a student:");
+            System.out.println("\nList of available students:");
             viewAllStudents();
 
-            UUID id = UUID.fromString(InputReaderUtil.readString("Enter student id you want to delete from the list: "));
+            UUID id = UUID.fromString(InputReaderUtil.readString("Enter the ID of the student you want to delete:\nStudent ID: "));
             boolean successfullyDeleted = studentService.delete(id);
-            System.out.println(successfullyDeleted ? "Student successfully deleted" : "Failed to delete student");
+            System.out.println(successfullyDeleted ? "Student was successfully deleted." : "Failed to delete the student.");
 
         } catch (Exception e) {
+            System.out.println("An error occurred while deleting the student. Please check the details and try again.");
             e.printStackTrace();
         }
     }
 
     private void removeLabProblem() {
         try {
-            System.out.println("\nDeleting a lab problem:");
+            System.out.println("\nList of available lab problems:");
             viewAllLabProblems();
 
-            UUID id = UUID.fromString(InputReaderUtil.readString("Enter lab problem id you want to delete from the list: "));
+            UUID id = UUID.fromString(InputReaderUtil.readString("Enter the ID of the lab problem you want to delete:\nLab Problem ID: "));
             boolean successfullyDeleted = labProblemService.delete(id);
-            System.out.println(successfullyDeleted ? "Lab. problem successfully deleted" : "Failed to delete lab. problem");
+            System.out.println(successfullyDeleted ? "Lab problem was successfully deleted." : "Failed to delete the lab problem.");
 
         } catch (Exception e) {
+            System.out.println("An error occurred while deleting the lab problem. Please check the details and try again.");
             e.printStackTrace();
         }
     }
 
     private void removeAssignment() {
         try {
-            System.out.println("\nDeleting an assignment:");
+            System.out.println("List of available assignments:");
             viewAllAssignments();
 
-            UUID id = UUID.fromString(InputReaderUtil.readString("Enter assignment id you want to delete from the list: "));
+            UUID id = UUID.fromString(InputReaderUtil.readString("Enter the ID of the assignment you want to delete:\nAssignment ID: "));
             boolean successfullyDeleted = assignmentService.delete(id);
-            System.out.println(successfullyDeleted ? "Assignment successfully deleted" : "Failed to delete assignment");
+            System.out.println(successfullyDeleted ? "Assignment was successfully deleted." : "Failed to delete the assignment.");
 
         } catch (Exception e) {
+            System.out.println("An error occurred while deleting the assignment. Please check the details and try again.");
             e.printStackTrace();
         }
     }
@@ -312,31 +329,63 @@ public class AppUI {
         return new LabProblem(subject, dueDate, maxScore);
     }
 
-    private void viewAllStudents() {
+    private Assignment readAssignmentDetailsFromUser() {
+        System.out.println("List of available students:");
+        viewAllStudents();
+        UUID studentId = UUID.fromString(InputReaderUtil.readString("Enter the ID of the student to whom you want to assign the lab problem\\nStudent ID: "));
+        Student student = assignmentService.findStudentById(studentId);
+
+        System.out.println("List of available lab problems:");
+        viewAllLabProblems();
+        UUID labProblemId = UUID.fromString(InputReaderUtil.readString("Enter the ID of the lab problem to assign\\nLab Problem ID: "));
+        LabProblem labProblem = assignmentService.findLabProblemById(labProblemId);
+
+        int grade = InputReaderUtil.readInt("Enter the grade for the assignment: ");
+
+        return new Assignment(student, labProblem, grade);
+    }
+
+    /**
+     * A generic method that retrieves and displays a list of entities using provided service and display methods.
+     *
+     * @param <T>           the type of entities being processed
+     * @param serviceMethod  a {@code Supplier} that retrieves the list of entities from the appropriate service
+     * @param displayMethod  a {@code Consumer} that processes and displays the list of entities
+     * @param entityName     the name of the entity type, used for logging and error messages
+     *
+     * <p>This method performs the following steps:
+     * <ol>
+     *     <li>Calls the {@code serviceMethod} to retrieve the list of entities</li>
+     *     <li>Calls the {@code displayMethod} to display or process the list</li>
+     *     <li>Handles exceptions and logs any errors encountered during retrieval or display</li>
+     * </ol>
+     *
+     * In case of an exception, the method logs an error message with the specified {@code entityName}.
+     *
+     * @throws Exception if any exception occurs during the retrieval or display of entities
+     */
+    private <T> void viewAllEntities(Supplier<List<T>> serviceMethod, Consumer<List<T>> displayMethod, String entityName) {
+        // Supplier<List<T>> serviceMethod - represents a method that takes no arguments and returns a list of T
+        // Consumer<List<T>> displayMethod - represents a method that processes a list of T but doesn't return anything
         try {
-            List<Student> students = studentService.getAll();
-            displayStudentsList(students);
+            List<T> entities = serviceMethod.get();
+            displayMethod.accept(entities);
         } catch (Exception e) {
+            System.out.println("An error occurred while fetching the list of " + entityName + ". Please try again.");
             e.printStackTrace();
         }
+    }
+
+    private void viewAllStudents() {
+        viewAllEntities(studentService::getAll, this::displayStudentsList, "students");
     }
 
     private void viewAllLabProblems() {
-        try {
-            List<LabProblem> labProblems = labProblemService.getAll();
-            displayLabProblemsList(labProblems);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        viewAllEntities(labProblemService::getAll, this::displayLabProblemsList, "lab problems");
     }
 
     private void viewAllAssignments() {
-        try {
-            List<Assignment> assignments = assignmentService.getAll();
-            displayAssignmentList(assignments);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        viewAllEntities(assignmentService::getAll, this::displayAssignmentList, "assignments");
     }
 
     public void displayStudentsList(List<Student> students) {
