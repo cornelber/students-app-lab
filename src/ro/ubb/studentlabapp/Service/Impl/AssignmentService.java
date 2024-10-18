@@ -32,7 +32,7 @@ public class AssignmentService implements IAssignmentService {
 
     @Override
     public boolean delete(UUID id) {
-        return false;
+        return assignmentRepository.delete(id);
     }
 
     @Override

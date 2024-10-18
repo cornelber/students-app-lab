@@ -93,7 +93,7 @@ public class AppUI {
 
                 break;
             case 11:
-
+                removeAssignment();
                 break;
             case 12:
                 viewAllAssignments();
@@ -207,6 +207,20 @@ public class AppUI {
             UUID id = UUID.fromString(InputReaderUtil.readString("Enter lab problem id you want to delete from the list: "));
             boolean successfullyDeleted = labProblemService.delete(id);
             System.out.println(successfullyDeleted ? "Lab. problem successfully deleted" : "Failed to delete lab. problem");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void removeAssignment() {
+        try {
+            System.out.println("\nDeleting an assignment:");
+            viewAllAssignments();
+
+            UUID id = UUID.fromString(InputReaderUtil.readString("Enter assignment id you want to delete from the list: "));
+            boolean successfullyDeleted = assignmentService.delete(id);
+            System.out.println(successfullyDeleted ? "Assignment successfully deleted" : "Failed to delete assignment");
 
         } catch (Exception e) {
             e.printStackTrace();
