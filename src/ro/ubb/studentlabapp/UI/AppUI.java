@@ -57,6 +57,7 @@ public class AppUI {
         System.out.println("12. View all assignments");
         System.out.println("==================================");
         System.out.println("13. Filter unassigned student.");
+        System.out.println("14. Report most assigned lab problem.");
         System.out.println("==================================");
         System.out.println("0. Close app");
         return InputReaderUtil.readInt("Enter your choice: ");
@@ -106,6 +107,9 @@ public class AppUI {
             case 13:
                 showUnassignedStudents();
                 break;
+            case 14:
+                reportMostAssignedLabProblem();
+                break;
             default:
                 System.out.println("Invalid choice. Please try again.");
         }
@@ -147,6 +151,13 @@ public class AppUI {
             e.printStackTrace();
         }
 
+    }
+
+    private void reportMostAssignedLabProblem() {
+        assignmentService.getMostAssignedLabProblem().ifPresentOrElse(
+                labProblem -> System.out.println("The most assigned lab problem is: " + labProblem.getSubject()),
+                () -> System.out.println("No lab problems have been assigned yet.")
+        );
     }
     private void addStudent() {
         try {
