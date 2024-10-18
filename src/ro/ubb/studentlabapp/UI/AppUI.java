@@ -49,6 +49,9 @@ public class AppUI {
         System.out.println("8. View all laboratory problems");
         System.out.println("==================================");
         System.out.println("9. Assign problem to student");
+        System.out.println("10. Update an assignment");
+        System.out.println("11. Delete an assignment");
+        System.out.println("12. View all assignments");
         System.out.println("==================================");
         System.out.println("0. Close app");
         return InputReaderUtil.readInt("Enter your choice: ");
@@ -85,6 +88,15 @@ public class AppUI {
                 break;
             case 9:
                 addAssignment();
+                break;
+            case 10:
+
+                break;
+            case 11:
+
+                break;
+            case 12:
+
                 break;
             default:
                 System.out.println("Invalid choice. Please try again.");
