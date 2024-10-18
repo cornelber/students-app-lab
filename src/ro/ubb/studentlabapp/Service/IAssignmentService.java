@@ -5,6 +5,7 @@ import ro.ubb.studentlabapp.Domain.LabProblem;
 import ro.ubb.studentlabapp.Domain.Student;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -13,5 +14,5 @@ public interface IAssignmentService extends ICRUDService<Assignment>{
     LabProblem findLabProblemById(UUID id);
 
     List<Student> filterStudentsWithoutAssignments();
-    Optional<LabProblem> getMostAssignedLabProblem();
+    Map<LabProblem, Long> getMostAssignedLabProblems();
 }
