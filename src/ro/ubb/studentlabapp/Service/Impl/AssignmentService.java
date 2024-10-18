@@ -7,6 +7,8 @@ import ro.ubb.studentlabapp.Repository.ICRUDRepository;
 import ro.ubb.studentlabapp.Service.IAssignmentService;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -57,5 +59,13 @@ public class AssignmentService implements IAssignmentService {
         return studentRepository.findAll().stream()
                 .filter(student -> allAssignments.stream().noneMatch(assignment -> assignment.getStudent().getId().equals(student.getId())))
                 .collect(Collectors.toList());
+    }
+
+    public Optional<LabProblem> getMostAssignedLabProblem() {
+        return assignmentRepository.findAll().stream()
+                .collect(Collectors.groupingBy(Assignment::getLabProblem, Collectors.counting()))  // Grupăm după labProblem și numărăm
+                .entrySet().stream()
+                .max(Map.Entry.comparingByValue())  // Găsim labProblem-ul cu cea mai mare valoare (număr de asignări)
+                .map(Map.Entry::getKey);  // Extragem labProblem-ul corespunzător
     }
 }
