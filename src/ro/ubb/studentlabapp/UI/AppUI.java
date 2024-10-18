@@ -56,6 +56,8 @@ public class AppUI {
         System.out.println("11. Delete an assignment");
         System.out.println("12. View all assignments");
         System.out.println("==================================");
+        System.out.println("13. Filter unassigned student.");
+        System.out.println("==================================");
         System.out.println("0. Close app");
         return InputReaderUtil.readInt("Enter your choice: ");
     }
@@ -101,6 +103,9 @@ public class AppUI {
             case 12:
                 viewAllAssignments();
                 break;
+            case 13:
+                showUnassignedStudents();
+                break;
             default:
                 System.out.println("Invalid choice. Please try again.");
         }
@@ -134,6 +139,15 @@ public class AppUI {
         assignmentService.add(assignment3);
     }
 
+    private void showUnassignedStudents(){
+        try{
+            List<Student> unassignedStudents = assignmentService.filterStudentsWithoutAssignments();
+            displayStudentsList(unassignedStudents);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
     private void addStudent() {
         try {
             Student student = readStudentDetailsFromUser();

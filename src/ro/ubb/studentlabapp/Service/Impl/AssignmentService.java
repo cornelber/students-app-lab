@@ -8,6 +8,7 @@ import ro.ubb.studentlabapp.Service.IAssignmentService;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class AssignmentService implements IAssignmentService {
     private ICRUDRepository<Assignment> assignmentRepository;
@@ -48,5 +49,13 @@ public class AssignmentService implements IAssignmentService {
     @Override
     public LabProblem findLabProblemById(UUID id) {
         return labProblemRepository.findById(id);
+    }
+
+    @Override
+    public List<Student> filterStudentsWithoutAssignments() {
+        List<Assignment> allAssignments = assignmentRepository.findAll();
+        return studentRepository.findAll().stream()
+                .filter(student -> allAssignments.stream().noneMatch(assignment -> assignment.getStudent().getId().equals(student.getId())))
+                .collect(Collectors.toList());
     }
 }
