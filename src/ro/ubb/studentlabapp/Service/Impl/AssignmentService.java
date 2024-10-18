@@ -37,7 +37,7 @@ public class AssignmentService implements IAssignmentService {
 
     @Override
     public List<Assignment> getAll() {
-        return null;
+        return assignmentRepository.findAll();
     }
 
     @Override

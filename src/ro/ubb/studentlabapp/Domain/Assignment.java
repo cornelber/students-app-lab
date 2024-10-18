@@ -39,7 +39,7 @@ public class Assignment {
     }
 
     // Getter for grade
-    public double getGrade() {
+    public int getGrade() {
         return grade;
     }
     // Setter for grade
@@ -54,7 +54,7 @@ public class Assignment {
      */
     @Override
     public String toString() {
-        return String.format("| %-36s | %-36s | %-20s | %-10.2f |",
+        return String.format("| %-36s | %-36s | %-20s | %-10d |",
                 getId(),
                 getStudent().getFirstName() + " " + getStudent().getLastName(),
                 getLabProblem().getSubject(),
