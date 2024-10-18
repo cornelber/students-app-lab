@@ -12,7 +12,6 @@ import ro.ubb.studentlabapp.Utils.TableFormatterUtil;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -108,7 +107,7 @@ public class AppUI {
                 viewAllAssignments();
                 break;
             case 13:
-                showUnassignedStudents();
+                displayStudentsWithoutAssignments();
                 break;
             case 14:
                 displayMostAssignedLabProblems();
@@ -141,15 +140,13 @@ public class AppUI {
         Assignment assignment1 = new Assignment(student1, labProblem1, 90);
         Assignment assignment2 = new Assignment(student2, labProblem2, 85);
         Assignment assignment3 = new Assignment(student3, labProblem1, 75);
-        Assignment assignment4 = new Assignment(student3, labProblem2, 75);
 
         assignmentService.add(assignment1);
         assignmentService.add(assignment2);
         assignmentService.add(assignment3);
-        assignmentService.add(assignment4);
     }
 
-    private void showUnassignedStudents(){
+    private void displayStudentsWithoutAssignments(){
         try {
             System.out.println("\nFetching list of students without assignments...");
             List<Student> unassignedStudents = assignmentService.filterStudentsWithoutAssignments();
@@ -163,9 +160,9 @@ public class AppUI {
                             },
                             () -> System.out.println("\nAll students have been assigned lab problems.") // fallback method
                     );
-        } catch (Exception e) {
-            System.out.println("An error occurred while fetching the list of unassigned students. Please try again.");
-            e.printStackTrace();
+        } catch (RuntimeException e) {
+            System.out.println("An error occurred while fetching the list of unassigned students. Please try again: " + e.getMessage());
+            //e.printStackTrace();
         }
 
     }
@@ -185,9 +182,9 @@ public class AppUI {
                             },
                             () -> System.out.println("No lab problems have been assigned yet.") // fallback method
                     );
-        } catch (Exception e) {
-            System.out.println("An error occurred while fetching the most assigned lab problems. Please try again.");
-            e.printStackTrace();
+        } catch (RuntimeException e) {
+            System.out.println("An error occurred while fetching the most assigned lab problems. Please try again: " + e.getMessage());
+            // e.printStackTrace();
         }
     }
 
@@ -197,9 +194,9 @@ public class AppUI {
             boolean successfullyAdded = studentService.add(studentToAdd);
             System.out.println(successfullyAdded ? "Student successfully added" : "Failed to add student");
 
-        } catch (Exception e) {
-            System.out.println("An error occurred while adding the student. Please check the details and try again.");
-            e.printStackTrace();
+        } catch (RuntimeException e) {
+            System.out.println("An error occurred while adding the student. Please check the details and try again: " + e.getMessage());
+            // e.printStackTrace();
         }
     }
 
@@ -209,9 +206,9 @@ public class AppUI {
             boolean successfullyAdded = labProblemService.add(labProblemToAdd);
             System.out.println(successfullyAdded ? "Laboratory problem successfully added" : "Failed to add laboratory problem");
 
-        } catch (Exception e) {
-            System.out.println("An error occurred while adding the laboratory problem. Please check the details and try again.");
-            e.printStackTrace();
+        } catch (RuntimeException e) {
+            System.out.println("An error occurred while adding the laboratory problem. Please check the details and try again: " + e.getMessage());
+            // e.printStackTrace();
         }
     }
 
@@ -221,9 +218,9 @@ public class AppUI {
             boolean successfullyAdded = assignmentService.add(assignmentToAdd);
             System.out.println(successfullyAdded ? "Assignment successfully added" : "Failed to add assignment");
 
-        } catch (Exception e) {
-            System.out.println("An error occurred while adding the assignment. Please check the details and try again.");
-            e.printStackTrace();
+        } catch (RuntimeException e) {
+            System.out.println("An error occurred while adding the assignment. Please check the details and try again: " + e.getMessage());
+            // e.printStackTrace();
         }
     }
 
@@ -238,9 +235,9 @@ public class AppUI {
             boolean successfullyUpdated = studentService.update(id, studentToUpdate);
             System.out.println(successfullyUpdated ? "Student successfully updated" : "Failed to update student");
 
-        } catch (Exception e) {
-            System.out.println("An error occurred while updating the student. Please check the details and try again.");
-            e.printStackTrace();
+        } catch (RuntimeException e) {
+            System.out.println("An error occurred while updating the student. Please check the details and try again: " + e.getMessage());
+            // e.printStackTrace();
         }
     }
 
@@ -255,9 +252,9 @@ public class AppUI {
             boolean successfullyUpdated = labProblemService.update(id, labProblemToUpdate);
             System.out.println(successfullyUpdated ? "Lab problem was successfully updated." : "Failed to update the lab problem.");
 
-        } catch (Exception e) {
-            System.out.println("An error occurred while updating the lab problem. Please check the details and try again.");
-            e.printStackTrace();
+        } catch (RuntimeException e) {
+            System.out.println("An error occurred while updating the lab problem. Please check the details and try again: " + e.getMessage());
+            // e.printStackTrace();
         }
     }
 
@@ -273,9 +270,9 @@ public class AppUI {
             boolean successfullyUpdated = assignmentService.update(id, assignmentToUpdate);
             System.out.println(successfullyUpdated ? "Assignment was successfully updated." : "Failed to update the assignment.");
 
-        } catch (Exception e) {
-            System.out.println("An error occurred while updating the assignment. Please check the details and try again.");
-            e.printStackTrace();
+        } catch (RuntimeException e) {
+            System.out.println("An error occurred while updating the assignment. Please check the details and try again: " + e.getMessage());
+            // e.printStackTrace();
         }
     }
 
@@ -288,9 +285,9 @@ public class AppUI {
             boolean successfullyDeleted = studentService.delete(id);
             System.out.println(successfullyDeleted ? "Student was successfully deleted." : "Failed to delete the student.");
 
-        } catch (Exception e) {
-            System.out.println("An error occurred while deleting the student. Please check the details and try again.");
-            e.printStackTrace();
+        } catch (RuntimeException e) {
+            System.out.println("An error occurred while deleting the student. Please check the details and try again: " + e.getMessage());
+            // e.printStackTrace();
         }
     }
 
@@ -303,9 +300,9 @@ public class AppUI {
             boolean successfullyDeleted = labProblemService.delete(id);
             System.out.println(successfullyDeleted ? "Lab problem was successfully deleted." : "Failed to delete the lab problem.");
 
-        } catch (Exception e) {
-            System.out.println("An error occurred while deleting the lab problem. Please check the details and try again.");
-            e.printStackTrace();
+        } catch (RuntimeException e) {
+            System.out.println("An error occurred while deleting the lab problem. Please check the details and try again: " + e.getMessage());
+            // e.printStackTrace();
         }
     }
 
@@ -318,9 +315,9 @@ public class AppUI {
             boolean successfullyDeleted = assignmentService.delete(id);
             System.out.println(successfullyDeleted ? "Assignment was successfully deleted." : "Failed to delete the assignment.");
 
-        } catch (Exception e) {
-            System.out.println("An error occurred while deleting the assignment. Please check the details and try again.");
-            e.printStackTrace();
+        } catch (RuntimeException e) {
+            System.out.println("An error occurred while deleting the assignment. Please check the details and try again: " + e.getMessage());
+            // e.printStackTrace();
         }
     }
 
@@ -381,9 +378,9 @@ public class AppUI {
         try {
             List<T> entities = serviceMethod.get();
             displayMethod.accept(entities);
-        } catch (Exception e) {
-            System.out.println("An error occurred while fetching the list of " + entityName + ". Please try again.");
-            e.printStackTrace();
+        } catch (RuntimeException e) {
+            System.out.println("An error occurred while fetching the list of " + entityName + ". Please try again: " + e.getMessage());
+            // e.printStackTrace();
         }
     }
 
