@@ -15,6 +15,6 @@ A teacher manages information about students, lab problems, and assignments. Thi
 
 ## Feature Status Legend
 
-- [✓] Feature implemented
-- [✗] Feature not implemented
-- [?] Feature partially implemented
+- [✓] Feature/Task implemented
+- [✗] Feature/Task not implemented
+- [?] Feature/Task partially implemented
