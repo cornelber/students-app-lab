@@ -27,7 +27,7 @@ public class AssignmentService implements IAssignmentService {
 
     @Override
     public boolean update(UUID id, Assignment assignment) {
-        return false;
+        return assignmentRepository.update(id, assignment);
     }
 
     @Override

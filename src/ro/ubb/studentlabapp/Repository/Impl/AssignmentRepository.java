@@ -23,7 +23,11 @@ public class AssignmentRepository implements ICRUDRepository<Assignment> {
 
     @Override
     public boolean update(UUID id, Assignment assignment) {
-        return false;
+        Assignment assignmentToUpdate = findById(id);
+
+        assignmentToUpdate.setGrade(assignment.getGrade());
+
+        return true;
     }
 
     @Override

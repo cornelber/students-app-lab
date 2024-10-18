@@ -12,6 +12,9 @@ public class Assignment {
     private LabProblem labProblem;
     private int grade;
 
+    public Assignment(int grade) {
+        this.grade = grade;
+    }
     /**
      * Constructor to create a new Assignment.
      *
