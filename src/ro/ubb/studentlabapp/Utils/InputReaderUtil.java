@@ -3,7 +3,6 @@ package ro.ubb.studentlabapp.Utils;
 import ro.ubb.studentlabapp.Constants.ErrorMessageStrings;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -48,6 +47,25 @@ public class InputReaderUtil {
             System.out.println(ErrorMessageStrings.INPUT_FLOAT);
             scanner.next(); // Consume incorrect input
             return readFloat(prompt);
+        }
+    }
+
+    /**
+     * Reads a double precision floating-point number input from the console.
+     *
+     * @param prompt The message prompt displayed to the user.
+     * @return The double precision floating-point number input provided by the user.
+     */
+    public static double readDouble(String prompt) {
+        try {
+            System.out.print(prompt);
+            double input = scanner.nextDouble();
+            scanner.nextLine(); // Consume the remaining newline
+            return input;
+        } catch (InputMismatchException ime) {
+            System.out.println("Please enter a valid double.");
+            scanner.next(); // Consume incorrect input
+            return readDouble(prompt);
         }
     }
 
