@@ -6,10 +6,7 @@ import ro.ubb.studentlabapp.Domain.Student;
 import ro.ubb.studentlabapp.Repository.ICRUDRepository;
 import ro.ubb.studentlabapp.Service.IAssignmentService;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class AssignmentService implements IAssignmentService {
@@ -61,11 +58,18 @@ public class AssignmentService implements IAssignmentService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<LabProblem> getMostAssignedLabProblem() {
-        return assignmentRepository.findAll().stream()
-                .collect(Collectors.groupingBy(Assignment::getLabProblem, Collectors.counting()))  // Grupăm după labProblem și numărăm
-                .entrySet().stream()
-                .max(Map.Entry.comparingByValue())  // Găsim labProblem-ul cu cea mai mare valoare (număr de asignări)
-                .map(Map.Entry::getKey);  // Extragem labProblem-ul corespunzător
+    public Map<LabProblem, Long> getMostAssignedLabProblems() {
+        // Grouping by LabProblem and counting assignments for each lab problem
+        Map<LabProblem, Long> labProblemCountMap = assignmentRepository.findAll().stream()
+                .collect(Collectors.groupingBy(Assignment::getLabProblem, Collectors.counting()));
+
+        // Find max count of assignments
+        Optional<Long> maxCount = labProblemCountMap.values().stream().max(Long::compare);
+
+        // Return all lab problems which has max count
+        return maxCount.map(count -> labProblemCountMap.entrySet().stream()
+                        .filter(entry -> entry.getValue().equals(count))
+                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)))
+                .orElse(Collections.emptyMap());  // If there are no assignments, return empty map
     }
 }

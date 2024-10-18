@@ -12,6 +12,7 @@ import ro.ubb.studentlabapp.Utils.TableFormatterUtil;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -110,7 +111,7 @@ public class AppUI {
                 showUnassignedStudents();
                 break;
             case 14:
-                reportMostAssignedLabProblem();
+                displayMostAssignedLabProblems();
                 break;
             default:
                 System.out.println("Invalid choice. Please try again.");
@@ -140,10 +141,12 @@ public class AppUI {
         Assignment assignment1 = new Assignment(student1, labProblem1, 90);
         Assignment assignment2 = new Assignment(student2, labProblem2, 85);
         Assignment assignment3 = new Assignment(student3, labProblem1, 75);
+        Assignment assignment4 = new Assignment(student3, labProblem2, 75);
 
         assignmentService.add(assignment1);
         assignmentService.add(assignment2);
         assignmentService.add(assignment3);
+        assignmentService.add(assignment4);
     }
 
     private void showUnassignedStudents(){
@@ -167,15 +170,23 @@ public class AppUI {
 
     }
 
-    private void reportMostAssignedLabProblem() {
+    private void displayMostAssignedLabProblems() {
         try {
             System.out.println("\nFetching the most assigned lab problem...");
-            assignmentService.getMostAssignedLabProblem().ifPresentOrElse(
-                    labProblem -> System.out.println("The most assigned lab problem is: " + labProblem.getSubject()),
-                    () -> System.out.println("No lab problems have been assigned yet.")
-            );
+
+            Optional.ofNullable(assignmentService.getMostAssignedLabProblems())
+                    .filter(map -> !map.isEmpty())
+                    .ifPresentOrElse(
+                            mostAssignedLabProblems -> {
+                                System.out.println("The most assigned lab problems are:");
+                                mostAssignedLabProblems.forEach((labProblem, count) ->
+                                        System.out.println(labProblem.getSubject() + " [" + count + " assignments]")
+                                );
+                            },
+                            () -> System.out.println("No lab problems have been assigned yet.") // fallback method
+                    );
         } catch (Exception e) {
-            System.out.println("An error occurred while fetching the most assigned lab problem. Please try again.");
+            System.out.println("An error occurred while fetching the most assigned lab problems. Please try again.");
             e.printStackTrace();
         }
     }
