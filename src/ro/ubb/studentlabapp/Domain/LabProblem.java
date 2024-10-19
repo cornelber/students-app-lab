@@ -8,8 +8,7 @@ import java.util.UUID;
 /**
  * This class represents a lab problem with a unique ID, subject, due date, and maximum score.
  */
-public class LabProblem {
-    private final UUID id;
+public class LabProblem extends BaseEntity<UUID> {
     private String subject;
     private LocalDate dueDate;
     private int maxScore;
@@ -30,15 +29,11 @@ public class LabProblem {
      * @param maxScore  The maximum score for the lab problem
      */
     public LabProblem(String subject, LocalDate dueDate, int maxScore) {
-        this.id = UUID.randomUUID();
+        super();  // Call the BaseEntity constructor
+        this.setId(UUID.randomUUID());  // Set the UUID in the BaseEntity
         this.subject = subject;
         this.dueDate = dueDate;
         this.maxScore = maxScore;
-    }
-
-    // Getter for problem ID
-    public UUID getId() {
-        return id;
     }
 
     // Getter for lab problem subject
@@ -78,8 +73,8 @@ public class LabProblem {
      */
     @Override
     public String toString() {
-        return String.format("| %-36s | %-20s | %-10s | %-15d |",
-                getId(),
+        return String.format("%s %-20s | %-10s | %-15d |",
+                super.toString(),  // Use the formatted ID string from BaseEntity
                 getSubject(),
                 DateFormatterUtil.formatDate(getDueDate()),
                 getMaxScore()

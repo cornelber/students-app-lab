@@ -7,8 +7,7 @@ import java.util.UUID;
 /**
  * This class represents an assignment of a student for a specific lab problem and their grade.
  */
-public class Assignment {
-    private final UUID id;
+public class Assignment extends BaseEntity<UUID> {
     private Student student;
     private LabProblem labProblem;
     private int grade;
@@ -22,7 +21,8 @@ public class Assignment {
      * @throws IllegalArgumentException if the grade is not between 0 and 100
      */
     public Assignment(Student student, LabProblem labProblem, int grade) {
-        this.id = UUID.randomUUID();
+        super();  // Call BaseEntity constructor
+        this.setId(UUID.randomUUID());  // Set the UUID in the BaseEntity
         this.student = student;
         this.labProblem = labProblem;
         this.grade = grade;
@@ -35,13 +35,9 @@ public class Assignment {
      * @throws IllegalArgumentException if the grade is not between 0 and 100
      */
     public Assignment(int grade) {
-        this.id = UUID.randomUUID();
+        super();  // Call BaseEntity constructor
+        this.setId(UUID.randomUUID());  // Set the UUID in the BaseEntity
         this.grade = grade;
-    }
-
-    // Getter for assignment ID
-    public UUID getId() {
-        return this.id;
     }
 
     // Getter for student
@@ -71,8 +67,8 @@ public class Assignment {
      */
     @Override
     public String toString() {
-        return String.format("| %-36s | %-36s | %-30s | %-20s | %-10s | %-15d | %-10d |",
-                getId(),
+        return String.format("%s %-36s | %-30s | %-20s | %-10s | %-15d | %-10d |",
+                super.toString(),  // Use the formatted ID string from BaseEntity
                 getStudent().getFirstName() + " " + getStudent().getLastName(),
                 getStudent().getEmail(),
                 getLabProblem().getSubject(),
