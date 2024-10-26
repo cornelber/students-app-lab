@@ -8,14 +8,10 @@ A teacher manages information about students, lab problems, and assignments. Thi
 - [✓] **Perform CRUD operations** on assignments
   - [✓] **Assign problems** to students
   - [✓] **Assign grades**
-- [?] **Filter entities** based on various criteria:
+- [✓] **Filter entities** based on various criteria:
   - [✓] Filter students without assignments
-  - [✗] Filter lab problems by the number of students assigned
-  - [✗] Filter students who have received a grade for all assigned problems
-- [?] **Generate reports**, such as:
+- [✓] **Generate reports**, such as:
   - [✓] Finding the most assigned lab problem
-  - [✗] Finding the student with the **highest** average grade
-  - [✗] Finding the student with the **lowest** average grade
 - [✗] **Implement validation & throw exceptions** for students, lab problems, and assignments
 
 ## Tech Stack
