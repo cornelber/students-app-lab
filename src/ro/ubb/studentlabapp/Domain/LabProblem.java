@@ -1,42 +1,39 @@
 package ro.ubb.studentlabapp.Domain;
 
+import ro.ubb.studentlabapp.Utils.DateFormatterUtil;
+
 import java.time.LocalDate;
 import java.util.UUID;
 
 /**
  * This class represents a lab problem with a unique ID, subject, due date, and maximum score.
  */
-public class LabProblem {
-    private UUID problemId;
+public class LabProblem extends BaseEntity<UUID> {
     private String subject;
     private LocalDate dueDate;
     private int maxScore;
 
-    /**
-     * Default constructor to create an empty LabProblem.
-     * The UUID will be generated automatically.
-     */
-    public LabProblem() {
-        this.problemId = UUID.randomUUID();
-    }
+//    /**
+//     * Default constructor to create an empty LabProblem.
+//     * The UUID will be generated automatically.
+//     */
+//    public LabProblem() {
+//        this.id = UUID.randomUUID();
+//    }
 
     /**
      * Constructor to create a new LabProblem with specific details.
      *
      * @param subject   The subject of the lab problem
      * @param dueDate   The due date for the lab problem
-     * @param maxScore  The maximum score of the lab problem
+     * @param maxScore  The maximum score for the lab problem
      */
     public LabProblem(String subject, LocalDate dueDate, int maxScore) {
-        this.problemId = UUID.randomUUID();
+        super();  // Call the BaseEntity constructor
+        this.setId(UUID.randomUUID());  // Set the UUID in the BaseEntity
         this.subject = subject;
         this.dueDate = dueDate;
         this.maxScore = maxScore;
-    }
-
-    // Getter for problem ID
-    public UUID getProblemId() {
-        return problemId;
     }
 
     // Getter for lab problem subject
@@ -76,10 +73,10 @@ public class LabProblem {
      */
     @Override
     public String toString() {
-        return String.format("| %-36s | %-20s | %-10s | %-10d |",
-                getProblemId(),
+        return String.format("%s %-20s | %-10s | %-15d |",
+                super.toString(),  // Use the formatted ID string from BaseEntity
                 getSubject(),
-                getDueDate(),
+                DateFormatterUtil.formatDate(getDueDate()),
                 getMaxScore()
         );
     }

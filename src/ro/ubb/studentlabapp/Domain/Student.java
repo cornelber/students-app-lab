@@ -3,39 +3,35 @@ package ro.ubb.studentlabapp.Domain;
 import java.util.UUID;
 
 /**
- * This class represents a student with a unique ID, first name, last name, and email.
+ * This class represents a student with first name, last name, and email.
+ * It extends BaseEntity, which provides the unique ID functionality.
  */
-public class Student {
-    private UUID id;
+public class Student extends BaseEntity<UUID> {
     private String firstName;
     private String lastName;
     private String email;
 
-    /**
-     * Default constructor to create an empty Student.
-     * The UUID will be generated automatically.
-     */
-    public Student() {
-        this.id = UUID.randomUUID();
-    }
+//    /**
+//     * Default constructor to create an empty Student.
+//     * The UUID will be generated automatically.
+//     */
+//    public Student() {
+//        this.id = UUID.randomUUID();
+//    }
 
     /**
      * Constructor to create a new Student with a random UUID.
      *
      * @param firstName  The first name of the student
-     * @param lastName The second name of the student
+     * @param lastName   The last name of the student
      * @param email      The email of the student
      */
     public Student(String firstName, String lastName, String email) {
-        this.id = UUID.randomUUID();
+        super(); // Call the BaseEntity constructor
+        this.setId(UUID.randomUUID());  // Set the UUID in the BaseEntity
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-    }
-
-    // Getter for student ID
-    public UUID getId() {
-        return id;
     }
 
     // Getter for first name
@@ -75,8 +71,8 @@ public class Student {
      */
     @Override
     public String toString() {
-        return String.format("| %-36s | %-15s | %-15s | %-30s |",
-                getId(),
+        return String.format("%s %-15s | %-15s | %-30s |",
+                super.toString(),  // Use the formatted ID string from BaseEntity
                 getFirstName(),
                 getLastName(),
                 getEmail()

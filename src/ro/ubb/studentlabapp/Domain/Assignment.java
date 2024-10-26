@@ -1,23 +1,42 @@
 package ro.ubb.studentlabapp.Domain;
 
+import ro.ubb.studentlabapp.Utils.DateFormatterUtil;
+
+import java.util.UUID;
+
 /**
  * This class represents an assignment of a student for a specific lab problem and their grade.
  */
-public class Assignment {
+public class Assignment extends BaseEntity<UUID> {
     private Student student;
     private LabProblem labProblem;
-    private double grade;
+    private int grade;
 
     /**
      * Constructor to create a new Assignment.
      *
      * @param student    The student who is assigned the lab problem
      * @param labProblem The lab problem assigned to the student
-     * @param grade      The grade the student received for the assignment
+     * @param grade      The grade the student received for the assignment (must be between 0 and 100)
+     * @throws IllegalArgumentException if the grade is not between 0 and 100
      */
-    public Assignment(Student student, LabProblem labProblem, double grade) {
+    public Assignment(Student student, LabProblem labProblem, int grade) {
+        super();  // Call BaseEntity constructor
+        this.setId(UUID.randomUUID());  // Set the UUID in the BaseEntity
         this.student = student;
         this.labProblem = labProblem;
+        this.grade = grade;
+    }
+
+    /**
+     * Constructor to create an assignment only with grade (used for updates).
+     *
+     * @param grade The grade the student received for the assignment (must be between 0 and 100)
+     * @throws IllegalArgumentException if the grade is not between 0 and 100
+     */
+    public Assignment(int grade) {
+        super();  // Call BaseEntity constructor
+        this.setId(UUID.randomUUID());  // Set the UUID in the BaseEntity
         this.grade = grade;
     }
 
@@ -32,12 +51,12 @@ public class Assignment {
     }
 
     // Getter for grade
-    public double getGrade() {
+    public int getGrade() {
         return grade;
     }
 
     // Setter for grade
-    public void setGrade(double grade) {
+    public void setGrade(int grade) {
         this.grade = grade;
     }
 
@@ -48,11 +67,14 @@ public class Assignment {
      */
     @Override
     public String toString() {
-        return String.format("| %-36s | %-36s | %-20s | %-10.2f |",
-                getStudent().getId(),
+        return String.format("%s %-36s | %-30s | %-20s | %-10s | %-15d | %-10d |",
+                super.toString(),  // Use the formatted ID string from BaseEntity
                 getStudent().getFirstName() + " " + getStudent().getLastName(),
+                getStudent().getEmail(),
                 getLabProblem().getSubject(),
-                getGrade()
+                DateFormatterUtil.formatDate(getLabProblem().getDueDate()),
+                getGrade(),
+                getLabProblem().getMaxScore()
         );
     }
 }
